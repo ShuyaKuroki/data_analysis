@@ -35,10 +35,10 @@ est23<-est23[-grep("以上$",est23$area),]
 # 文字列から数値へ
 est23$area<-as.integer(est23$area)
 
-# 取引価格(total_price)の分布を確認。図１参照
+# 取引価格(total_price)の分布を確認。hist_total_price参照
 hist(est23$total_price)
 # 右裾に外れ値あり。除外するか、それとも対数変換するか。一旦対数変換してみる。
 est23$log_total_price<-log(est23$total_price)
-# 対数変換後の分布は正規分布にかなり近い。図２参照。
-hist(est$23$log_total_price)
+# 対数変換後の分布は正規分布にかなり近い。hist_log_total_price参照。
+hist(est23$log_total_price)
 
