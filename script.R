@@ -67,6 +67,7 @@ est23$kitchen_level[grep("ＤＫ",est23$floor_plan)]<-"DK"
 est23$kitchen_level[grep("ＬＤＫ",est23$floor_plan)]<-"LDK"
 est23$kitchen_level[is.na(est23$kitchen_level)]<-"N"
 
+
 ## サービスルームをカウント
 est23$service_room<-0
 est23$service_room[grep("Ｓ",est23$floor_plan)]<-1
@@ -172,8 +173,19 @@ set.seed(111)
 train_sample<-sample(11510,8000)
 est23_train<-est23[train_sample,]
 est23_test<-est23[-train_sample,]
+
 # 線形回帰
+m_lm<-lm(total_price~.,data=est23_train)
+p_total_price_lm<-predict(m_lm,est23_test)
+cor(p_total_price_lm,est23_test$total_price)
 
+# 回帰木
+m_rpart<-rpart(total_price~.,data=est23_train,cp=0.0018)
+p_total_price_rpart<-predict(m_rpart,est23_test)
+cor(p_total_price_rpart,est23_test$total_price)
 
+# ランダムフォレスト
+m_rft<-randomForest( total_price~.,data=est23_train)
+p_total_price_rft<-predict(m_rft,est23_test)
+cor(p_total_price_rft,est23_test$total_price)
 
-m_lm<-lm(total_price~.,data=est23)
